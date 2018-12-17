@@ -80,6 +80,10 @@ export default class Player extends Component {
 
 
   render() {
+    if(this.props.tracks.length === 0) {
+      return <View><Text>Loading</Text></View>
+    }
+
     const track = this.props.tracks[this.state.selectedTrack];
     const video = this.state.isChanging ? null : (
       <Video source={{uri: track.audioUrl}} // Can be a URL or a local file.
@@ -111,6 +115,7 @@ export default class Player extends Component {
           repeatOn={this.state.repeatOn}
           shuffleOn={this.state.shuffleOn}
           forwardDisabled={this.state.selectedTrack === this.props.tracks.length - 1}
+          playDisabled={this.props.tracks.some(value => value.localFile !== null) === false}
           onPressShuffle={() => this.setState({shuffleOn: !this.state.shuffleOn})}
           onPressPlay={() => this.setState({paused: false})}
           onPressPause={() => this.setState({paused: true})}

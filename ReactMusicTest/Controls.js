@@ -19,6 +19,7 @@ const Controls = ({
   onPressShuffle,
   onPressRepeat,
   forwardDisabled,
+  playDisabled
 }) => (
   <View style={styles.container}>
     <TouchableOpacity activeOpacity={0.0} onPress={onPressShuffle}>
@@ -37,7 +38,7 @@ const Controls = ({
         </View>
       </TouchableOpacity> :
       <TouchableOpacity onPress={onPressPlay}>
-        <View style={styles.playButton}>
+        <View style={[styles.playButton, playDisabled ? styles.off : []]}>
           <Image source={require('./img/ic_play_arrow_white_48pt.png')}/>
         </View>
       </TouchableOpacity>
