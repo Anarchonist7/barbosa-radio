@@ -78,8 +78,13 @@ export default class Player extends Component {
   }
 
   componentDidMount() {
-    this.props.socket.on('PLAY', () => {
-      this.setState({ pause: false });
+    this.props.socket.on('message', function(data){
+      console.log(data);
+      // if (data === "PLAY"){
+      //   this.setState({ pause: false )};
+      // } else {
+      //   throw new Error
+      // this.setState({ pause: false });
     })
   }
 
