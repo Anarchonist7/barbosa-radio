@@ -78,13 +78,15 @@ export default class Player extends Component {
   }
 
   componentDidMount() {
-    this.props.socket.on('message', function(data){
+    this.props.socket.on('message', data => {
       console.log(data);
-      // if (data === "PLAY"){
-      //   this.setState({ pause: false )};
-      // } else {
-      //   throw new Error
-      // this.setState({ pause: false });
+      if (data === "PLAY"){
+        console.log("data equals play");
+        this.setState({ paused: false });
+      } else {
+        console.log("data does not equal play");
+        throw new Error(`Undefined data type: ${data.type}`);
+      }
     })
   }
 

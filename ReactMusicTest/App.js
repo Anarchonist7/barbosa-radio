@@ -110,9 +110,9 @@ export default class App extends Component {
     this.state.socket.on('message', function(data){
       console.log(data);
 
-      this.state.socket.on('disconnect', function(){
-        console.log("Client disconnected");
-      });
+      // this.state.socket.on('disconnect', function(){
+      //   console.log("Client disconnected");
+      // });
 
     });
   }

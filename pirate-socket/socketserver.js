@@ -7,9 +7,7 @@ io.on('connection', client => {
     
     client.on('message', function(data){ 
         console.log(data);
-        setTimeout(() => {
-            resolve(client.send("PLAY"));
-        }, 2000);
+        client.broadcast.emit("PLAY");
     });
 
     client.on('disconnect', () => { 
