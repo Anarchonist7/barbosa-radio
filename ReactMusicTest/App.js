@@ -10,14 +10,14 @@ const serverData = [
     title: 'Stressed Out',
     artist: 'Twenty One Pilots',
     albumArtUrl: "http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg",
-    audioUrl: 'http://localhost:8080/tune2.mp3'
+    audioUrl: 'http://localhost:8080/tune3.mp3'
   },
   {
     id: 2,
     title: 'Iron Lion Zion',
     artist: 'Bob Marley',
     albumArtUrl: "http://36.media.tumblr.com/14e9a12cd4dca7a3c3c4fe178b607d27/tumblr_nlott6SmIh1ta3rfmo1_1280.jpg",
-    audioUrl: 'http://localhost:8080/tune3.mp3'
+    audioUrl: 'http://localhost:8080/tune4.mp3'
   }
 ]
 
@@ -69,8 +69,10 @@ export default class App extends Component {
   }
 
   componentDidMount(){
-    asyncRequest().then(serverData => {
-      const tracks = serverData.map(track => {
+    // Wait three seconds, then create a tracks object from the response data passed by the function
+    // Fill that tracks object with each track, and add a 'null' local file to each track
+    asyncRequest().then(responseData => {
+      const tracks = responseData.map(track => {
         return {
           ...track,
           localFile: null
