@@ -4,6 +4,8 @@ import { View, Text, AppRegistry } from 'react-native';
 import RNFS from 'react-native-fs';
 import shorthash from 'shorthash';
 
+const socketServer = require('socket.io-client')('http://localhost:3003');
+
 const serverData = [
   {
     id: 1,
@@ -31,7 +33,8 @@ function asyncRequest() {
 
 export default class App extends Component {
   state = {
-    tracks: []
+    tracks: [],
+    socket: socketServer
   }
 
   loadFile = ( id, path )=> {
@@ -99,11 +102,24 @@ export default class App extends Component {
         })
       })
     })
+
+    this.state.socket.on('connect', function(){
+      console.log("Client side");
+    });
+
+    this.state.socket.on('message', function(data){
+      console.log(data);
+
+      this.state.socket.on('disconnect', function(){
+        console.log("Client disconnected");
+      });
+
+    });
   }
 
   render() {
-    return <Player tracks={this.state.tracks} />
-
-
+    return (
+    <Player tracks={this.state.tracks} socket={this.state.socket} />
+    )
   }
 }

@@ -77,7 +77,11 @@ export default class Player extends Component {
     }
   }
 
-
+  componentDidMount() {
+    this.props.socket.on('PLAY', () => {
+      this.setState({ pause: false });
+    })
+  }
 
   render() {
     if(this.props.tracks.length === 0) {
@@ -117,7 +121,11 @@ export default class Player extends Component {
           forwardDisabled={this.state.selectedTrack === this.props.tracks.length - 1}
           playDisabled={this.props.tracks.some(value => value.localFile !== null) === false}
           onPressShuffle={() => this.setState({shuffleOn: !this.state.shuffleOn})}
-          onPressPlay={() => this.setState({paused: false})}
+          onPressPlay={() => {
+            // this.setState({paused: false});
+            // console.log(this.props.socket);
+            this.props.socket.send("PLAY");
+          }}
           onPressPause={() => this.setState({paused: true})}
           onBack={this.onBack.bind(this)}
           onForward={this.onForward.bind(this)}
