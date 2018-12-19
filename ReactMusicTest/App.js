@@ -86,11 +86,11 @@ export default class App extends Component {
     // Fill that tracks object with each track, and add a 'null' local file to each track
     
       const ship1 = "http://localhost:8080/ships/1";
-      let tracks = []
+      // let tracks = []
 
     // console.log(fetch(ship1));
     
-      let getTracks = new Promise((resolve, reject) => {
+      const getTracks = new Promise((resolve, reject) => {
         fetch(ship1, {
         method: 'GET'
         }).then((responseData, error) => {
@@ -98,46 +98,44 @@ export default class App extends Component {
             throw new Error("Error: ", error);
           } else {
             tracksResponse = JSON.parse(responseData._bodyText);
-            tracks = tracksResponse.map(track => {
+            const tracks = tracksResponse.map(track => {
               return {
                 ...track,
                 localFile: null
               }
             })
+            resolve(tracks);
           }
         })
-      })
-  
-      getTrack.then((resolve, reject) => {
-        if (reject){
-          console.log("Erroring!!!!!!!!!!!!")
-          throw new Error("Error: ", reject.message);
-        } else {
-          console.log(tracks);
-          this.setState({
-            tracks: tracks,
-            loading: false
-          })
-        }  
       })
 
-  
-      tracks.forEach(song => {
-        const uri  = song.audioUrl;
-        const id = song.id
-        const name = shorthash.unique(uri);
-        // const extension = (Platform.OS === 'android') ? 'file://' : ''
-        const path =`${RNFS.CachesDirectoryPath}/${name}.mp3`;
-        RNFS.exists(path).then(exists => {
-            // if(exists)this.loadFile(path);
-          if(exists) {
-            this.loadFile(id, path)
-          } else {
-            this.downloadFile(id, uri,path);
-          }
+      const downloadTracks = (tracks) => {
+        tracks.forEach(song => {
+          const uri  = song.audioUrl;
+          const id = song.id
+          const name = shorthash.unique(uri);
+          // const extension = (Platform.OS === 'android') ? 'file://' : ''
+          const path =`${RNFS.CachesDirectoryPath}/${name}.mp3`;
+          RNFS.exists(path).then(exists => {
+              // if(exists)this.loadFile(path);
+            if(exists) {
+              this.loadFile(id, path)
+            } else {
+              this.downloadFile(id, uri,path);
+            }
+          })
         })
-      })
-    
+      };
+
+      getTracks.then((tracks) => {
+        console.log("heyo!!!!!!!!");
+        this.setState({
+          tracks: tracks,
+          loading: false
+        })
+        downloadTracks(tracks);
+      });
+
 
     this.state.socket.on('connect', function(){
       console.log("Client side");
