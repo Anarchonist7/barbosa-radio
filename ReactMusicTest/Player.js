@@ -91,9 +91,9 @@ export default class Player extends Component {
   }
 
   render() {
-    if(this.props.tracks.length === 0) {
-      return <View><Text>Loading</Text></View>
-    }
+    // if(this.props.tracks.length === 0) {
+    //   return <View><Text>Loading</Text></View>
+    // }
 
     const track = this.props.tracks[this.state.selectedTrack];
     const video = this.state.isChanging ? null : (
