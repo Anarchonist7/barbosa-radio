@@ -86,9 +86,6 @@ export default class App extends Component {
     // Fill that tracks object with each track, and add a 'null' local file to each track
     
       const ship1 = "http://localhost:8080/ships/1";
-      // let tracks = []
-
-    // console.log(fetch(ship1));
     
       const getTracks = new Promise((resolve, reject) => {
         fetch(ship1, {
@@ -128,7 +125,6 @@ export default class App extends Component {
       };
 
       getTracks.then((tracks) => {
-        console.log("heyo!!!!!!!!");
         this.setState({
           tracks: tracks,
           loading: false
@@ -144,9 +140,9 @@ export default class App extends Component {
     this.state.socket.on('message', function(data){
       console.log(data);
 
-      // this.state.socket.on('disconnect', function(){
-      //   console.log("Client disconnected");
-      // });
+      this.state.socket.on('disconnect', function(){
+        console.log("Client disconnected");
+      });
 
     });
   }
